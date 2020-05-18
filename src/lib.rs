@@ -301,8 +301,7 @@ impl Compiler {
                 Some(ConfigFile::Str(ref s)) => {
                     let path = Path::new(s);
                     let r = File::open(&path).context("failed to read config file")?;
-                    let config: Rc =
-                        serde_json::from_reader(r).context("failed to parse config file")?;
+                    let config: Rc = serde_json::from_reader(r)?;
                     Some(config)
                 }
                 _ => None,
@@ -317,8 +316,7 @@ impl Compiler {
 
                             if swcrc.exists() {
                                 let r = File::open(&swcrc).context("failed to read config file")?;
-                                let config: Rc = serde_json::from_reader(r)
-                                    .context("failed to parse config file")?;
+                                let config: Rc = serde_json::from_reader(r)?;
 
                                 let mut config = config
                                     .into_config(Some(path))
